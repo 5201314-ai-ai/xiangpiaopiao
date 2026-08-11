@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>香飘飘 · 作品集</title>
+  <meta name="description" content="香飘飘的个人作品集——开工大吉，每一次创作都是新的开始。">
+  <meta name="theme-color" content="#c33d2e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23c33d2e'/%3E%3Ctext x='50' y='62' font-size='42' text-anchor='middle' fill='%23f7f1e5' font-family='KaiTi,serif'%3E飘%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#works">跳到作品</a>
+
+  <header class="site-header">
+    <a class="site-header__brand" href="#top">香飘飘</a>
+    <nav class="site-header__nav" aria-label="主导航">
+      <a href="#works">作品</a>
+      <a href="#about">关于</a>
+      <button class="nav-upload" type="button" data-open-picker>上传照片</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero__text">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> 开工大吉 · 个人作品集</p>
+        <h1 class="hero__name">香飘飘</h1>
+        <p class="hero__tagline">每一次开工，都是新的作品。</p>
+        <p class="hero__intro">这里收藏我的创作与日常——从开张的礼炮，到每一件认真做完的事。</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#works">看看作品</a>
+          <button class="btn btn--ghost" type="button" data-open-picker>上传照片</button>
+        </div>
+      </div>
+      <figure class="hero__photo">
+        <img src="assets/hero.jpg" alt="香飘飘：动漫风格的女孩插画，穿着校服坐在教室里托腮微笑">
+        <figcaption>香飘飘</figcaption>
+      </figure>
+      <div class="hero__seal" aria-hidden="true">开工<br>大吉</div>
+    </section>
+
+    <div class="ribbon" aria-hidden="true">
+      <div class="ribbon__track">
+        <span>开工大吉 ✦ 香飘飘的作品 ✦ 开工大吉 ✦ 香飘飘的作品 ✦ </span>
+        <span>开工大吉 ✦ 香飘飘的作品 ✦ 开工大吉 ✦ 香飘飘的作品 ✦ </span>
+      </div>
+    </div>
+
+    <section class="works section" id="works">
+      <header class="section__head">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> Works</p>
+        <h2>我的作品</h2>
+        <p>这里是作品相册。从本地相册上传照片，就能成为作品集的一部分，照片只保存在你的浏览器里。</p>
+      </header>
+
+      <div class="upload-bar" id="uploadBar" role="button" tabindex="0" aria-label="上传照片到作品集">
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+        <p class="upload-bar__icon" aria-hidden="true">✦</p>
+        <p class="upload-bar__title">从相册上传照片</p>
+        <p class="upload-bar__hint">点击选择，或把照片拖到这里，可一次选多张</p>
+      </div>
+
+      <ul class="works__grid" id="worksGrid" aria-live="polite"></ul>
+
+      <div class="empty" id="emptyState" hidden>
+        <p class="empty__seal" aria-hidden="true">开工</p>
+        <p>还没有作品，上传第一张照片，开工！</p>
+      </div>
+    </section>
+
+    <section class="about section" id="about">
+      <div class="about__inner">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> About</p>
+        <h2>关于香飘飘</h2>
+        <p>我是香飘飘，一个喜欢把想法做出来的人。不管是新项目开张，还是日常里的小创作，我都相信：认真开工，好事自然来。</p>
+        <p>这个网站是我的作品相册，也会不断更新。</p>
+      </div>
+      <div class="about__seal" aria-hidden="true">香飘飘<br>作品集</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 香飘飘 · 开工大吉</p>
+    <p class="site-footer__note">上传的照片保存在你的浏览器本地</p>
+  </footer>
+
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="作品大图">
+    <button class="lightbox__close" type="button" aria-label="关闭大图">×</button>
+    <figure>
+      <img id="lightboxImg" alt="">
+      <figcaption id="lightboxCaption"></figcaption>
+    </figure>
+  </div>
+
+  <div class="dialog" id="dialog" hidden role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+    <div class="dialog__panel">
+      <h3 id="dialogTitle">给作品起个名字</h3>
+      <img id="dialogPreview" alt="待上传图片预览">
+      <label for="workName">作品名</label>
+      <input id="workName" type="text" maxlength="30" placeholder="例如：开工大吉">
+      <label for="workNote">想说的话（可选）</label>
+      <textarea id="workNote" rows="2" maxlength="120" placeholder="一句话介绍这件作品"></textarea>
+      <div class="dialog__actions">
+        <button class="btn btn--ghost" id="dialogCancel" type="button">取消</button>
+        <button class="btn btn--primary" id="dialogSave" type="button">保存作品</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

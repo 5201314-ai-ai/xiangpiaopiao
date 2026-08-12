@@ -82,6 +82,7 @@
 
   <footer class="site-footer">
     <p>© 2026 香飘飘 · 开工大吉</p>
+    <button class="qr-trigger" type="button" data-open-qr>✦ 扫码分享我的作品集</button>
     <p class="site-footer__note">上传的照片保存在你的浏览器本地</p>
   </footer>
 
@@ -104,6 +105,18 @@
       <div class="dialog__actions">
         <button class="btn btn--ghost" id="dialogCancel" type="button">取消</button>
         <button class="btn btn--primary" id="dialogSave" type="button">保存作品</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog" id="qrModal" hidden role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+    <div class="dialog__panel qr-modal__panel">
+      <h3 id="qrTitle">扫码访问我的作品集</h3>
+      <img class="qr-modal__img" src="assets/qr.png" alt="25商英5班作品集二维码">
+      <p class="qr-modal__url">https://5201314-ai-ai.github.io/xiangpiaopiao/</p>
+      <div class="dialog__actions">
+        <button class="btn btn--ghost" id="qrClose" type="button">关闭</button>
+        <a class="btn btn--primary" id="qrDownload" href="assets/qr.png" download="25商英5班作品集二维码.png">保存二维码</a>
       </div>
     </div>
   </div>

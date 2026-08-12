@@ -430,10 +430,27 @@
     }
   });
 
+  /* ---------- QR modal ---------- */
+  var qrModal = $("#qrModal");
+  $$("[data-open-qr]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      qrModal.hidden = false;
+    });
+  });
+  $("#qrClose").addEventListener("click", function () {
+    qrModal.hidden = true;
+  });
+  qrModal.addEventListener("click", function (e) {
+    if (e.target === qrModal) {
+      qrModal.hidden = true;
+    }
+  });
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       closeLightbox();
       $("#dialog").hidden = true;
+      $("#qrModal").hidden = true;
     }
   });
 

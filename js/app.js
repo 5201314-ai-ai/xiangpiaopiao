@@ -439,11 +439,15 @@
 
   /* ---------- seed + start ---------- */
   var SEED_KEY = "xiangpiaopiao-seeded-v1";
+  var GALLERY_KEY = "xiangpiaopiao-gallery-v1";
   var seeded = false;
+  var galleryDone = false;
   try {
     seeded = localStorage.getItem(SEED_KEY) === "1";
+    galleryDone = localStorage.getItem(GALLERY_KEY) === "1";
   } catch (e) {
     seeded = false;
+    galleryDone = false;
   }
 
   var seedCard = {
@@ -454,8 +458,25 @@
     createdAt: Date.now()
   };
 
+  function makeGalleryWorks() {
+    var works = [];
+    for (var i = 1; i <= 24; i++) {
+      var num = String(i).padStart(2, "0");
+      works.push({
+        id: makeId(),
+        name: "作品 " + num,
+        note: "",
+        src: "assets/gallery/photo-" + num + ".jpg",
+        createdAt: Date.now() - (24 - i) * 60000
+      });
+    }
+    return works;
+  }
+
+  var galleryWorks = makeGalleryWorks();
+
   if (!seeded) {
-    render([seedCard]);
+    render([seedCard].concat(galleryWorks));
   }
 
   storage.getAll().then(function (rows) {
@@ -470,18 +491,36 @@
     var tasks = changed.map(function (w) {
       return storage.add(w);
     });
-    return Promise.all(tasks).then(function () {
-      if (rows.length === 0 && !seeded) {
-        return storage.add(seedCard).then(function () {
-          try {
-            localStorage.setItem(SEED_KEY, "1");
-          } catch (e) {
-            /* ignore */
-          }
-          refresh();
+
+    var firstVisit = rows.length === 0 && !seeded;
+    if (firstVisit) {
+      tasks.push(storage.add(seedCard));
+      galleryWorks.forEach(function (g) {
+        tasks.push(storage.add(g));
+      });
+    } else if (!galleryDone) {
+      galleryWorks.forEach(function (g) {
+        var exists = rows.some(function (w) {
+          return w.src === g.src;
         });
+        if (!exists) {
+          tasks.push(storage.add(g));
+        }
+      });
+    }
+
+    return Promise.all(tasks).then(function () {
+      if (firstVisit || !galleryDone) {
+        try {
+          localStorage.setItem(SEED_KEY, "1");
+          localStorage.setItem(GALLERY_KEY, "1");
+        } catch (e) {
+          /* ignore */
+        }
+        refresh();
+      } else {
+        render(rows);
       }
-      render(rows);
     });
   });
 })();

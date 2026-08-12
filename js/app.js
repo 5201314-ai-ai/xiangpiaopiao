@@ -440,14 +440,18 @@
   /* ---------- seed + start ---------- */
   var SEED_KEY = "xiangpiaopiao-seeded-v1";
   var GALLERY_KEY = "xiangpiaopiao-gallery-v1";
+  var ORDER_KEY = "xiangpiaopiao-order-v2";
   var seeded = false;
   var galleryDone = false;
+  var orderDone = false;
   try {
     seeded = localStorage.getItem(SEED_KEY) === "1";
     galleryDone = localStorage.getItem(GALLERY_KEY) === "1";
+    orderDone = localStorage.getItem(ORDER_KEY) === "1";
   } catch (e) {
     seeded = false;
     galleryDone = false;
+    orderDone = false;
   }
 
   var seedCard = {
@@ -460,6 +464,7 @@
 
   function makeGalleryWorks() {
     var works = [];
+    var base = Date.now();
     for (var i = 1; i <= 24; i++) {
       var num = String(i).padStart(2, "0");
       works.push({
@@ -467,7 +472,7 @@
         name: "作品 " + num,
         note: "",
         src: "assets/gallery/photo-" + num + ".jpg",
-        createdAt: Date.now() - (24 - i) * 60000
+        createdAt: base - i * 60000
       });
     }
     return works;
@@ -481,10 +486,22 @@
 
   storage.getAll().then(function (rows) {
     var changed = [];
+    var base = Date.now();
     rows.forEach(function (w) {
       if (w.src === "assets/hero.jpg" && w.name === "开工大吉") {
         w.name = "香飘飘";
         w.note = "新的作品，新的开始。";
+        changed.push(w);
+      }
+      var m = /^assets\/gallery\/photo-(\d+)\.jpg$/.exec(w.src);
+      var target = null;
+      if (w.src === "assets/hero.jpg") {
+        target = base;
+      } else if (m) {
+        target = base - parseInt(m[1], 10) * 60000;
+      }
+      if (target !== null && w.createdAt !== target) {
+        w.createdAt = target;
         changed.push(w);
       }
     });
@@ -510,10 +527,11 @@
     }
 
     return Promise.all(tasks).then(function () {
-      if (firstVisit || !galleryDone) {
+      if (firstVisit || !galleryDone || !orderDone) {
         try {
           localStorage.setItem(SEED_KEY, "1");
           localStorage.setItem(GALLERY_KEY, "1");
+          localStorage.setItem(ORDER_KEY, "1");
         } catch (e) {
           /* ignore */
         }

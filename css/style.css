@@ -529,12 +529,52 @@ button {
   letter-spacing: 0.18em;
 }
 
+.qr-trigger {
+  margin-top: 0.8rem;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid rgba(217, 162, 63, 0.7);
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.qr-trigger:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+
 .site-footer__note {
   margin-top: 0.4rem !important;
   font-family: var(--font-body) !important;
   font-size: 0.82rem;
   letter-spacing: 0.05em !important;
   color: rgba(247, 241, 229, 0.55);
+}
+
+.qr-modal__panel {
+  text-align: center;
+}
+
+.qr-modal__img {
+  width: min(260px, 80%);
+  margin: 0 auto 0.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.qr-modal__url {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  word-break: break-all;
+}
+
+.qr-modal__panel .dialog__actions {
+  justify-content: center;
 }
 
 /* ---------- lightbox ---------- */
